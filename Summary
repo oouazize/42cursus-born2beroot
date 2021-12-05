@@ -1,0 +1,80 @@
+                                           ##################################
+                                           #    Part one: Evaluation Q&A    #
+                                           ##################################
+!GOOGLE IT IF YOU WANT MORE!
+
+Q: Why Debian?
+A: It's easier to install and configure than CentOS (and i haven't use CentOS before)
+
+Q: What is virtual machine?
+A: A Virtual Machine (VM) is a compute resource that uses software instead of a physical computer to run programs and deploy 
+apps. Each virtual machine runs its own operating system and functions separately from the other VMs, even when they are all
+running on the same host. For example, you can run a virtual MacOS machine on a physical PC. 
+
+Q: What it's purpose?
+A: VMs may be deployed to accommodate different levels of processing power needs, to run software that requires a different
+operating system, or to test applications in a safe, sandboxed environment. 
+
+Q: How does it works?
+A: VM working through "Virtualization" technology. Virtualization uses software to simulate virtual hardware that allows 
+VMs to run on a single host machine.
+
+Q: Diff between aptitude and apt?
+A: Aptitude is a high-level package manager while APT is lower-level package manager which can be used by other 
+higher-level package managers
+(read more: https://www.tecmint.com/difference-between-apt-and-aptitude/)
+
+Q: What is AppArmor?
+A: AppArmor ("Application Armor") is a Linux kernel security module that allows the system administrator to restrict programs'
+capabilities with per-program profiles.
+(read more: https://en.wikipedia.org/wiki/AppArmor)
+
+Q: What is SSH?
+A: SSH, also known as Secure Shell or Secure Socket Shell, is a network protocol that gives users, particularly system 
+administrators, a secure way to access a computer over an unsecured network.
+(read more: https://searchsecurity.techtarget.com/definition/Secure-Shell)
+
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+| You have to create a new user here.        |
+| $ sudo adduser username                    | <- creating new user (yes (no))
+| $ sudo chage -l username                   | <- Verify password expire info for new user
+| $ sudo adduser username sudo               |
+| $ sudo adduser username user42             | <- assign new user to sudo and user42 groups
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+                                           ##################################
+                                           #    Part two: What to check?    #
+                                           ##################################
+|***************************************|
+| 1) lsblk                              1 <- Check partitions
+| 2) sudo aa-status                     2 <- AppArmor status
+| 3) getent group sudo                  3 <- sudo group users
+| 4) getent group user42                4 <- user42 group users
+| 5) sudo service ssh status            5 <- ssh status, yep
+| 6) sudo ufw status                    6 <- ufw status
+| 7) ssh username@ipadress -p 4242      7 <- connect to VM from your host (physical) machine via SSH
+| 8) nano /etc/sudoers.d/<filename>     8 <- yes, sudo config file. You can $ ls /etc/sudoers.d first
+| 9) nano /etc/login.defs               9 <- password expire policy
+| 10) nano /etc/pam.d/common-password  10 <- password policy
+| 11) sudo crontab -l                  11 <- cron schedule
+|***************************************|
+
+
+I think this one need an addition to make it more easy to pass evaluation. So, here we are on our checklist and his commands.
+
+How to change hostname?
+[$sudo vim /etc/hostname]
+
+Where is sudo logs in /var/log/sudo?
+[$cd /var/log/sudo/ && ls]
+
+How to add and remove port 8080 in UFW?
+[$ sudo ufw allow 8080] <- allow
+[$ sudo ufw status] <- check
+[$ sudo ufw deny 8080] <- deny (yes yes)
+
+How to run script every 10 minutes?
+[$ sudo crontab -e]
+|*************************************************|
+| */10 * * * * bash /path/to/monitoring.sh        |
+|*************************************************|
